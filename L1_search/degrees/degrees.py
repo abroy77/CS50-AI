@@ -112,7 +112,7 @@ def shortest_path(source, target):
         # let's check if a neighbour is the target
         success_neighbour = is_target_neighbour(node.neighbours, target)
         if success_neighbour:
-            success_path = get_path_to_target(node, success_neighbour)
+            success_path = node.get_path_to_target(success_neighbour)
             return success_path
         else:
             for neighbour in node.neighbours:
@@ -124,16 +124,6 @@ def shortest_path(source, target):
                 frontier.add(new_node)
 
     return None
-
-
-def get_path_to_target(node, neighbour):
-
-    path = [neighbour]
-    while node.parent:
-        path.append((node.movie, node.person))
-        node = node.parent
-    path.reverse()
-    return path
 
 
 def is_target_neighbour(neighbours, target):
