@@ -14,8 +14,6 @@ movies = {}
 
 
 # TODO
-# don't go back to the actor themselves
-# don't explore actors you've already explored
 # try greedy best first by choosing actor with most neighbours
 
 
@@ -105,9 +103,11 @@ def shortest_path(source, target):
     frontier = QueueFrontier()
     frontier.add(source_node)
     success_path = None
+    explored_persons = [source_node.person]
     while not frontier.empty():
 
         node = frontier.remove()
+        explored_persons.append(node.person)
 
         # let's check if a neighbour is the target
         success_neighbour = is_target_neighbour(node.neighbours, target)
@@ -117,6 +117,8 @@ def shortest_path(source, target):
         else:
             for neighbour in node.neighbours:
                 person = neighbour[1]
+                if person in explored_persons:
+                    continue
                 movie = neighbour[0]
                 new_node = Node(person, movie, node, neighbors_for_person(person))
                 frontier.add(new_node)
