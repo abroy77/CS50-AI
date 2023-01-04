@@ -36,3 +36,12 @@ class QueueFrontier(StackFrontier):
             node = self.frontier[0]
             self.frontier = self.frontier[1:]
             return node
+
+
+class GBFS(StackFrontier):
+    def remove(self):
+        if self.empty():
+            raise Exception("empty frontier")
+        node = max(self.frontier, key=lambda x: len(x.neighbours))
+        self.frontier.remove(node)
+        return node

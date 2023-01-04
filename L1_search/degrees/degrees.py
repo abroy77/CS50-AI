@@ -1,7 +1,7 @@
 import csv
 import sys
 
-from util import Node, StackFrontier, QueueFrontier
+from util import Node, StackFrontier, QueueFrontier, GBFS
 
 # Maps names to a set of corresponding person_ids
 names = {}
@@ -100,7 +100,7 @@ def shortest_path(source, target):
         person=source, movie=None, parent=None, neighbours=neighbors_for_person(source)
     )
 
-    frontier = QueueFrontier()
+    frontier = GBFS()
     frontier.add(source_node)
     success_path = None
     explored_persons = [source_node.person]
