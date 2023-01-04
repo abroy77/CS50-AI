@@ -4,6 +4,21 @@ class Node:
         self.parent = parent
         self.neighbours = neighbours
         self.movie = movie
+        self.path = self.get_path_to_target(self)
+        self.path_length = len(self.path)
+
+    def get_path_to_target(self, neighbour=None):
+
+        if neighbour:
+            path = [neighbour]
+        else:
+            path = []
+        node = self.copy()
+        while node.parent:
+            path.append((node.movie, node.person))
+            node = node.parent
+        path.reverse()
+        return path
 
 
 class StackFrontier:
