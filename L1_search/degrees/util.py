@@ -4,8 +4,6 @@ class Node:
         self.parent = parent
         self.neighbours = neighbours
         self.movie = movie
-        self.path = self.get_path_to_target(self)
-        self.path_length = len(self.path)
 
     def get_path_to_target(self, neighbour=None):
 
@@ -13,7 +11,7 @@ class Node:
             path = [neighbour]
         else:
             path = []
-        node = self.copy()
+        node = self
         while node.parent:
             path.append((node.movie, node.person))
             node = node.parent

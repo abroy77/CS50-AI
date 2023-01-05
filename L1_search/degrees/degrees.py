@@ -100,7 +100,7 @@ def shortest_path(source, target):
         person=source, movie=None, parent=None, neighbours=neighbors_for_person(source)
     )
 
-    frontier = GBFS()
+    frontier = QueueFrontier()
     frontier.add(source_node)
     success_path = None
     explored_persons = [source_node.person]
@@ -130,15 +130,12 @@ def is_target_neighbour(neighbours, target):
     """returns a tuple (movie, person) from the neighbours
     list if one of the neighbours has the target.
     Else returns None"""
-    neighbours = list(neighbours)
-    try:
-        index = [x[1] for x in neighbours].index(target)
-        neighbour = neighbours[index]
 
-    except ValueError:
-        neighbour = None
-
-    return neighbour
+    success = [x for x in neighbours if x[1] == target]
+    if success:
+        return success[0]
+    else:
+        return None
 
 
 def person_id_for_name(name):
@@ -174,9 +171,15 @@ def neighbors_for_person(person_id):
     """
     movie_ids = people[person_id]["movies"]
     neighbors = set()
-    for movie_id in movie_ids:
-        for person_id in movies[movie_id]["stars"]:
+
+    [
+        [
             neighbors.add((movie_id, person_id))
+            for person_id in movies[movie_id]["stars"]
+        ]
+        for movie_id in movie_ids
+    ]
+
     return neighbors
 
 
