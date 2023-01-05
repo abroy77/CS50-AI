@@ -5,7 +5,7 @@ import sys
 import pandas as pd
 
 
-from util_v2 import Node, StackFrontier, QueueFrontier, GBFS, Timer, TimerError
+from util_v2 import Node, StackFrontier, QueueFrontier, AStar, Timer, TimerError
 
 # Maps names to a set of corresponding person_ids
 names = {}
@@ -23,72 +23,11 @@ movies = {}
 # need to try A*
 
 
-def test_df_speed(directory):
-    people = pd.read_csv(f"{directory}/people.csv")
-    movies = pd.read_csv(f"{directory}/movies.csv")
-    stars = pd.read_csv(f"{directory}/stars.csv")
-
-    people["movies"] = [set() for i in range(len(people.index))]
-    people.set_index("id", drop=True, inplace=True)
-    movies["stars"] = [set() for i in range(len(movies.index))]
-    movies.set_index("id", drop=True, inplace=True)
-
-    for _, row in stars.iterrows():
-        try:
-            people.loc[row["person_id"]]["movies"].add(row["movie_id"])
-            movies.loc[row["movie_id"]]["stars"].add(row["person_id"])
-        except KeyError:
-            pass
-
-    person_ids = people.id
-    person2movies = [
-        set(stars[stars.person_id == person_id].movie_id) for person_id in people.id
-    ]
-    timer = Timer()
-
-    person_id = 102
-    neighbours = set()
-
-    timer.start()
-    movies_person_in = stars[stars.person_id == 102].movie_id
-    [
-        [
-            neighbours.add((movie, person))
-            for person in stars[stars.movie_id == movie].person_id
-        ]
-        for movie in movies_person_in
-    ]
-    timer.stop()
-    print(len(list(neighbours)))
-
-    return
-
-
-def test_old_speed(directory):
-    load_data(directory)
-
-    timer = Timer()
-    person_id = "102"
-    timer.start()
-    neighbours = neighbors_for_person(person_id)
-    print(len(neighbours))
-    timer.stop()
-
-
 def load_data(directory):
     """
     Load data from CSV files into memory.
     """
     # Load people
-    # people = pd.read_csv(f"{directory}/people.csv")
-    # movies = pd.read_csv(f"{directory}/movies.csv")
-    # stars = pd.read_csv(f"{directory}/stars.csv")
-
-    # stars[stars.person_id == 102].movie_id
-
-    # # now let's make some connective databases so it's easier to index
-    # person_ids = people.id
-    # movie_ids = movies.id
     with open(f"{directory}/people.csv", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         for row in reader:
@@ -130,15 +69,15 @@ def main():
 
     # Load data from files into memory
     print("Loading data...")
-    load_data(directory)
+    load_data("../degrees/large")
     print("Data loaded.")
 
-    # source = person_id_for_name(input("Name: "))
-    source = person_id_for_name("pierce brosnan")
+    source = person_id_for_name(input("Name: "))
+    # source = person_id_for_name("pierce brosnan")
     if source is None:
         sys.exit("Person not found.")
-    # target = person_id_for_name(input("Name: "))
-    target = person_id_for_name("noah centineo")
+    target = person_id_for_name(input("Name: "))
+    # target = person_id_for_name("noah centineo")
     if target is None:
         sys.exit("Person not found.")
 
@@ -156,6 +95,8 @@ def main():
             movie = movies[path[i + 1][0]]["title"]
             print(f"{i + 1}: {person1} and {person2} starred in {movie}")
 
+    # input("try another pair")
+
 
 def shortest_path(source, target):
     """
@@ -166,22 +107,29 @@ def shortest_path(source, target):
     """
 
     source_node = Node(
-        person=source, movie=None, parent=None, neighbours=neighbors_for_person(source)
+        person=source,
+        movie=None,
+        parent=None,
+        neighbours=neighbors_for_person(source),
+        cost=0,
     )
 
-    frontier = GBFS()
+    frontier = AStar()
     frontier.add(source_node)
     success_path = None
-    explored_persons = [source_node.person]
+    explored_persons = []
     while not frontier.empty():
 
         node = frontier.remove()
         explored_persons.append(node.person)
+        if len(explored_persons) % 100 == 0:
+            print(f"explored = {len(explored_persons)}")
 
         # let's check if a neighbour is the target
         success_neighbour = is_target_neighbour(node.neighbours, target)
         if success_neighbour:
             success_path = node.get_path_to_target(success_neighbour)
+            print(f"number of states explored = {len(explored_persons)}")
             return success_path
         else:
             for neighbour in node.neighbours:
@@ -192,6 +140,7 @@ def shortest_path(source, target):
                 new_node = Node(person, movie, node, neighbors_for_person(person))
                 frontier.add(new_node)
 
+    print(f"number of states explored = {len(explored_persons)}")
     return None
 
 
@@ -199,15 +148,12 @@ def is_target_neighbour(neighbours, target):
     """returns a tuple (movie, person) from the neighbours
     list if one of the neighbours has the target.
     Else returns None"""
-    neighbours = list(neighbours)
-    try:
-        index = [x[1] for x in neighbours].index(target)
-        neighbour = neighbours[index]
 
-    except ValueError:
-        neighbour = None
-
-    return neighbour
+    success = [x for x in neighbours if x[1] == target]
+    if success:
+        return success[0]
+    else:
+        return None
 
 
 def person_id_for_name(name):
@@ -250,6 +196,6 @@ def neighbors_for_person(person_id):
 
 
 if __name__ == "__main__":
-    # main()
+    main()
     # test_old_speed("../degrees/large")
-    test_df_speed("../degrees/large")
+    # test_df_speed("../degrees/large")

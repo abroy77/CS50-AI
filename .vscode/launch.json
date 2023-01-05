@@ -5,16 +5,16 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Degrees",
+            "name": "Python: Degrees_v2",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
+            "program": "/Users/abhishekroy/code/CS50_AI/L1_search/degrees_v2/degrees_v2.py",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "cwd": "${workspaceFolder}/L1_search/degrees",
-            "args": [
-                "small"
-            ],
+            "cwd": "${workspaceFolder}/L1_search/degrees_v2",
+            // "args": [
+            //     "small"
+            // ],
         },
     ]
 }

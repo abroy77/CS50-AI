@@ -1,14 +1,20 @@
 import time
+import copy
+from bisect import bisect_left
 
 
 class Node:
-    def __init__(self, person, movie, parent, neighbours):
+    def __init__(self, person, movie, parent, neighbours, cost=None):
         self.person = person
         self.parent = parent
         self.neighbours = neighbours
+        self.connectivity = 1 / len(neighbours)
         self.movie = movie
-        self.path = self.get_path_to_target(self)
-        self.path_length = len(self.path)
+        if cost is None:
+            self.cost = self.parent.cost + 1
+        else:
+            self.cost = cost
+        self.total_cost = self.cost + self.connectivity
 
     def get_path_to_target(self, neighbour=None):
 
@@ -16,7 +22,7 @@ class Node:
             path = [neighbour]
         else:
             path = []
-        node = self.copy()
+        node = self
         while node.parent:
             path.append((node.movie, node.person))
             node = node.parent
@@ -30,6 +36,7 @@ class StackFrontier:
 
     def add(self, node):
         self.frontier.append(node)
+        return
 
     def contains_state(self, person):
         return any(node.person == person for node in self.frontier)
@@ -56,13 +63,38 @@ class QueueFrontier(StackFrontier):
             return node
 
 
-class GBFS(StackFrontier):
+class AStar(QueueFrontier):
+    def __init__(self):
+        self.frontier = []
+        self.frontier_cost = []
+        return
+
     def remove(self):
         if self.empty():
             raise Exception("empty frontier")
-        node = max(self.frontier, key=lambda x: len(x.neighbours))
-        self.frontier.remove(node)
-        return node
+        else:
+            node = self.frontier.pop(0)
+            self.frontier = self.frontier[1:]
+
+            self.frontier_cost.remove(node.total_cost)
+            return node
+
+    # def remove(self):
+    #     if self.empty():
+    #         raise Exception("empty frontier")
+
+    #     node = min(self.frontier, key=lambda x: x.cost + x.connectivity)
+    #     self.frontier.remove(node)
+    #     return node
+
+    def add(self, node):
+
+        index = bisect_left(self.frontier_cost, node.total_cost)
+        self.frontier.insert(index, node)
+        self.frontier_cost.insert(index, node.total_cost)
+
+        # insort_left(self.frontier, node, key=lambda x: x.cost + x.connectivity)
+        return
 
 
 import time
