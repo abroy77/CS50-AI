@@ -1,8 +1,8 @@
 class Node:
-    def __init__(self, person, movie, parent, neighbours):
+    def __init__(self, person, movie, parent):
         self.person = person
         self.parent = parent
-        self.neighbours = neighbours
+        # self.neighbours = neighbours
         self.movie = movie
 
     def get_path_to_target(self, neighbour=None):

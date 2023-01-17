@@ -96,31 +96,33 @@ def shortest_path(source, target):
     If no possible path, returns None.
     """
 
-    source_node = Node(
-        person=source, movie=None, parent=None, neighbours=neighbors_for_person(source)
-    )
+    source_node = Node(person=source, movie=None, parent=None)
 
     frontier = QueueFrontier()
     frontier.add(source_node)
     success_path = None
-    explored_persons = [source_node.person]
+    explored_persons = []
     while not frontier.empty():
 
         node = frontier.remove()
         explored_persons.append(node.person)
+        len_ex = len(explored_persons)
+        if len_ex % 500 == 0:
+            print(f"num explored = {len_ex}")
 
         # let's check if a neighbour is the target
-        success_neighbour = is_target_neighbour(node.neighbours, target)
+        neighbours = neighbors_for_person(node.person)
+        success_neighbour = is_target_neighbour(neighbours, target)
         if success_neighbour:
             success_path = node.get_path_to_target(success_neighbour)
             return success_path
         else:
-            for neighbour in node.neighbours:
+            for neighbour in neighbours:
                 person = neighbour[1]
                 if person in explored_persons:
                     continue
                 movie = neighbour[0]
-                new_node = Node(person, movie, node, neighbors_for_person(person))
+                new_node = Node(person, movie, node)
                 frontier.add(new_node)
 
     return None
