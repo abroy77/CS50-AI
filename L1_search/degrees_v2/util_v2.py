@@ -79,21 +79,12 @@ class AStar(QueueFrontier):
             self.frontier_cost.remove(node.total_cost)
             return node
 
-    # def remove(self):
-    #     if self.empty():
-    #         raise Exception("empty frontier")
-
-    #     node = min(self.frontier, key=lambda x: x.cost + x.connectivity)
-    #     self.frontier.remove(node)
-    #     return node
-
     def add(self, node):
 
         index = bisect_left(self.frontier_cost, node.total_cost)
         self.frontier.insert(index, node)
         self.frontier_cost.insert(index, node.total_cost)
 
-        # insort_left(self.frontier, node, key=lambda x: x.cost + x.connectivity)
         return
 
 

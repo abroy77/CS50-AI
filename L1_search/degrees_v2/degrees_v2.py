@@ -69,7 +69,7 @@ def main():
 
     # Load data from files into memory
     print("Loading data...")
-    load_data("../degrees/large")
+    load_data(f"../degrees/{directory}")
     print("Data loaded.")
 
     source = person_id_for_name(input("Name: "))
@@ -94,8 +94,6 @@ def main():
             person2 = people[path[i + 1][1]]["name"]
             movie = movies[path[i + 1][0]]["title"]
             print(f"{i + 1}: {person1} and {person2} starred in {movie}")
-
-    # input("try another pair")
 
 
 def shortest_path(source, target):
