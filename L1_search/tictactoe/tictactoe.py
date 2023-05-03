@@ -136,20 +136,40 @@ def minimax(board):
     Returns the optimal action for the current player on the board.
     """
 
-    def get_value(board):
+    def max_value(board, ab_thresh=None):
         if terminal(board):
             return utility(board)
-        else:
-            optimizer = max if player(board) == X else min
+        v = -math.inf
+        for action in actions(board):
+            v = max(v, min_value(result(board, action), ab_thresh=None))
+            if (ab_thresh is not None) and (v > ab_thresh):
+                return v
+                
+        return v
 
-            return optimizer(
-                [get_value(result(board, action)) for action in actions(board)]
-            )
+    def min_value(board, ab_thresh=None):
+        if terminal(board):
+            return utility(board)
+        v = math.inf
+        for action in actions(board):
+            v = min(v, max_value(result(board, action), ab_thresh=None))
+            if (ab_thresh is not None) and (v < ab_thresh):
+                return v
+        return v
+    action_rewards={}
+    if player(board) == X:
+        for action in actions(board):
 
-    optimizer = max if player(board) == X else min
-    action_rewards = {
-        action: get_value(result(board, action)) for action in actions(board)
-    }
-    best_action = optimizer(action_rewards.items(), key=lambda x: x[1])
-    best_action = best_action[0]
+            reward = min_value(result(board, action))
+            action_rewards[action] = reward
+            best_action = max(action_rewards.items(), key=lambda x: x[1])
+            best_action = best_action[0]
+    else:
+        for action in actions(board):
+            reward = max_value(result(board, action))
+            action_rewards[action] = reward
+            best_action = min(action_rewards.items(), key=lambda x: x[1])
+            best_action = best_action[0]
+
     return best_action
+
