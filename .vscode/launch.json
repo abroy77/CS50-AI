@@ -6,6 +6,7 @@
     "configurations": [
 
 
+
         {
             "name": "Python: Degrees_v2",
             "type": "python",
@@ -38,6 +39,18 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "cwd": "${workspaceFolder}/L1_search/tictactoe",
+            // "args": [
+            //     "small"
+            // ],
+        },
+        {
+            "name": "Python: minesweeper",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/L2_knowledge/minesweeper/runner.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "cwd": "${workspaceFolder}/L2_knowledge/minesweeper/",
             // "args": [
             //     "small"
             // ],
