@@ -4,56 +4,51 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-
-
-
         {
             "name": "Python: Degrees_v2",
             "type": "python",
             "request": "launch",
-            "program": "/Users/abhishekroy/code/CS50_AI/L1_search/degrees/degrees.py",
+            "program": "/Users/abhishekroy/code/CS50_AI/L0_search/degrees/degrees.py",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "cwd": "${workspaceFolder}/L1_search/degrees",
-            // "args": [
-            //     "small"
-            // ],
+            "cwd": "${workspaceFolder}/L0_search/degrees",
         },
         {
             "name": "Python: tictactoe",
             "type": "python",
             "request": "launch",
-            "program": "/Users/abhishekroy/code/CS50_AI/L1_search/tictactoe/runner.py",
+            "program": "/Users/abhishekroy/code/CS50_AI/L0_search/tictactoe/runner.py",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "cwd": "${workspaceFolder}/L1_search/tictactoe",
-            // "args": [
-            //     "small"
-            // ],
+            "cwd": "${workspaceFolder}/L0_search/tictactoe"
         },
         {
             "name": "Python: tictactoe_tester",
             "type": "python",
             "request": "launch",
-            "program": "/Users/abhishekroy/code/CS50_AI/L1_search/tictactoe/tester.py",
+            "program": "/Users/abhishekroy/code/CS50_AI/L0_search/tictactoe/tester.py",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "cwd": "${workspaceFolder}/L1_search/tictactoe",
-            // "args": [
-            //     "small"
-            // ],
+            "cwd": "${workspaceFolder}/L0_search/tictactoe"
         },
         {
             "name": "Python: minesweeper",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/L2_knowledge/minesweeper/runner.py",
+            "program": "${workspaceFolder}/L1_knowledge/minesweeper/runner.py",
             "console": "integratedTerminal",
             "justMyCode": true,
-            "cwd": "${workspaceFolder}/L2_knowledge/minesweeper/",
-            // "args": [
-            //     "small"
-            // ],
+            "cwd": "${workspaceFolder}/L1_knowledge/minesweeper/"
+        },
+        {
+            "name": "Python: PageRank",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/L2_uncertainty/pagerank/pagerank.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "cwd": "${workspaceFolder}/L2_uncertainty/pagerank/",
+            "args": ["corpus0"]
         },
     ]
 }

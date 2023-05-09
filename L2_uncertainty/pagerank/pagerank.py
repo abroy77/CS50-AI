@@ -57,7 +57,13 @@ def transition_model(corpus, page, damping_factor):
     linked to by `page`. With probability `1 - damping_factor`, choose
     a link at random chosen from all pages in the corpus.
     """
-    raise NotImplementedError
+    damp = random.random() > damping_factor
+    if damp or len(corpus[page])==0:
+        page = random.choice(list(corpus.keys()))
+    else:
+        page = random.choice(corpus[page])
+    return page
+
 
 
 def sample_pagerank(corpus, damping_factor, n):
@@ -69,7 +75,20 @@ def sample_pagerank(corpus, damping_factor, n):
     their estimated PageRank value (a value between 0 and 1). All
     PageRank values should sum to 1.
     """
-    raise NotImplementedError
+    # convert corpus values from sets to lists
+    corpus = {key:list(value) for key, value in corpus.items()}
+    # get all pages
+    all_pages = list(corpus.keys())
+    count_dict = {key:0.0 for key in corpus.keys()}
+    page = random.choice(all_pages)
+    for i in range(n):
+        page = transition_model(corpus, page, damping_factor)
+        count_dict[page]+=1
+    count_dict = {key: value/n for key, value in count_dict.items()}
+
+
+    return count_dict
+
 
 
 def iterate_pagerank(corpus, damping_factor):
@@ -81,7 +100,39 @@ def iterate_pagerank(corpus, damping_factor):
     their estimated PageRank value (a value between 0 and 1). All
     PageRank values should sum to 1.
     """
-    raise NotImplementedError
+    num_pages = len(corpus.keys())
+    # initial ranking
+    pagerank = {key: 1/num_pages for key in corpus.keys()}
+    # interpret pages with no links as having one link to each other page
+    for page, links in corpus.items():
+        if len(links)==0:
+            corpus[page] = list(corpus.keys)
+            # remove the page itself
+            corpus[page].remove(page)
+    # get a dictionary of incoming pages
+    incoming_page = {}
+    for target_page in corpus.keys():
+        incoming_page[target_page] = [page for page in corpus.keys() if target_page in corpus[page]]
+
+
+    threshold = 0.001
+
+    while True:
+
+        new_rank = {}
+        deltas = []
+        for page, links in corpus.items():
+            new_rank[page] = ((1-damping_factor)/num_pages) + damping_factor * sum([pagerank[incoming]/len(corpus[incoming]) for incoming in incoming_page[page]])
+            deltas.append(abs(new_rank[page]-pagerank[page]))
+
+        # update ranking
+        pagerank=new_rank
+        # convergence check
+        if max(deltas) < threshold:
+            break
+
+    return pagerank
+
 
 
 if __name__ == "__main__":
