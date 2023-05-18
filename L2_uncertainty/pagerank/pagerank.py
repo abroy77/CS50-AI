@@ -106,7 +106,7 @@ def iterate_pagerank(corpus, damping_factor):
     # interpret pages with no links as having one link to each other page
     for page, links in corpus.items():
         if len(links)==0:
-            corpus[page] = list(corpus.keys)
+            corpus[page] = list(corpus.keys())
             # remove the page itself
             corpus[page].remove(page)
     # get a dictionary of incoming pages
