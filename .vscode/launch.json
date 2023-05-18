@@ -5,6 +5,7 @@
     "version": "0.2.0",
     "configurations": [
 
+
         {
             "name": "Python: Degrees_v2",
             "type": "python",
@@ -60,6 +61,16 @@
             "justMyCode": true,
             "cwd": "${workspaceFolder}/L2_uncertainty/heredity/",
             "args": ["data/family1.csv"]
+        },
+        {
+            "name": "Crossword",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/L3_optimization/crossword/generate.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "cwd": "${workspaceFolder}/L3_optimization/crossword/",
+            "args": ["data/structure1.txt", "data/words2.txt"]
         },
     ]
 }
