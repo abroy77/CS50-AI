@@ -6,6 +6,7 @@
     "configurations": [
 
 
+
         {
             "name": "Python: Degrees_v2",
             "type": "python",
@@ -71,6 +72,16 @@
             "justMyCode": true,
             "cwd": "${workspaceFolder}/L3_optimization/crossword/",
             "args": ["data/structure1.txt", "data/words2.txt"]
+        },
+        {
+            "name": "Shopping",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/L4_learning/shopping/shopping.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "cwd": "${workspaceFolder}/L4_learning/shopping/",
+            "args": ["shopping.csv"]
         },
     ]
 }
