@@ -8,6 +8,8 @@
 
 
 
+
+
         {
             "name": "Python: Degrees_v2",
             "type": "python",
@@ -93,6 +95,16 @@
             "justMyCode": true,
             "cwd": "${workspaceFolder}/L5_neural_networks/traffic/",
             "args": ["../gtsrb"]
+        },
+        {
+            "name": "parser",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/L6_language/parser/parser.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "cwd": "${workspaceFolder}/L6_language/parser/",
+            "args": ["sentences/10.txt"]
         },
     ]
 }
