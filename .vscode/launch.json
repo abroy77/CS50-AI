@@ -10,6 +10,7 @@
 
 
 
+
         {
             "name": "Python: Degrees_v2",
             "type": "python",
@@ -105,6 +106,16 @@
             "justMyCode": true,
             "cwd": "${workspaceFolder}/L6_language/parser/",
             "args": ["sentences/10.txt"]
+        },
+        {
+            "name": "Questions",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/L6_language/questions/questions.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "cwd": "${workspaceFolder}/L6_language/questions/",
+            "args": ["corpus"]
         },
     ]
 }
