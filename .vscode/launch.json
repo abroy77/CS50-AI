@@ -7,6 +7,7 @@
 
 
 
+
         {
             "name": "Python: Degrees_v2",
             "type": "python",
@@ -82,6 +83,16 @@
             "justMyCode": true,
             "cwd": "${workspaceFolder}/L4_learning/shopping/",
             "args": ["shopping.csv"]
+        },
+                {
+            "name": "traffic",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/L5_neural_networks/traffic/traffic.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "cwd": "${workspaceFolder}/L5_neural_networks/traffic/",
+            "args": ["../gtsrb"]
         },
     ]
 }

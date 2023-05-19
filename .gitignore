@@ -130,3 +130,6 @@ dmypy.json
 
 # csv datasets
 # *.csv
+
+# images
+*.ppm
